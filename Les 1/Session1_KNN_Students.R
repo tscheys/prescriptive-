@@ -75,6 +75,15 @@ head(churners)
 #Make sure that ALL the date variables do not exceed the end_indep BEFORE calculating the variables.
 
 #EXERCISE: Restrict the subscriptions table to the time-window
+# get subs 
+# use subscriptions 
+subsIndep <- as.data.frame(subs)
+subsIndep <- subsIndep[subsIndep$Startdate < end_ind]
+# also make sure renewal date is restricted to before end of independent period 
+# make a summary 
+
+
+# get time window < 01/06/2009
 
 ##########################################################################################################
 #2. Create training, validation and test set
@@ -102,12 +111,14 @@ ls()
 allind <- sample(x=1:nrow(Basetable),size=nrow(Basetable))
 
 #EXERCISE: split the observations in three parts of (approx.) equal length
-BasetableTRAIN <- Basetable[trainind,]
-BasetableVAL <- Basetable[valind,]
-BasetableTEST <- Basetable[testind,]
+# rounden ook 
+BasetableTRAIN <- Basetable[allind[0:length(allind)/3],]
+BasetableVAL <- Basetable[allind[length(allind)/3:(2*length(allind)/3)],]
+BasetableTEST <- Basetable[allind[length(allind)],]
 
 #Create a separate response variable
 yTRAIN <- BasetableTRAIN$Retention
+# IMPORTANT; delete these, otherwise you have a perfect model, you are predicting this, exactly what we are giving the model => Not good
 BasetableTRAIN$Retention <- NULL
 
 yVAL <- BasetableVAL$Retention
@@ -175,9 +186,13 @@ predKNN <- rowMeans(data.frame(matrix(data=predKNN,ncol=k,nrow=nrow(testKNN))))
 if(require('AUC')==FALSE)  install.packages('AUC',repos="http://www.freestatistics.org/cran/"); require('AUC')
 
 auc <- numeric()
+testjen <- auc(roc(predictions = predKNNoptimal, labels = yTEST))
 for (k in seq(from = 1, to = nrow(trainKNN), by = 2)) {
-
+  plot(testjen)
 }
+
+# high bias / low auc 
+# with this plot you can see the bias/variance trade-off => CERTAIN EXAM QUESTION 
 
 
 

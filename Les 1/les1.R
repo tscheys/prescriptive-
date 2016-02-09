@@ -30,3 +30,14 @@
 # lift is 4: on average my model is 4 times better at identifying the churners then (using no model)
 # shown is a cumalative lift curve 
 # please show me the non-cumulative lift curve 
+
+#KNN 
+
+# rule: you should touch your test sample only once 
+# to not misuse your test set, make a third dataset, a validation set 
+
+# k nearest neigbours: you can have n-params, you will work in n-dimensions 
+# is quite performant 
+# disadvantage: very computational intensive (distance computing)
+# k = 1 (might lead to overfitting)
+
